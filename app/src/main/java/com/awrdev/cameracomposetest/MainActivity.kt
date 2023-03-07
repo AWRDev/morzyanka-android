@@ -33,7 +33,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.awrdev.cameracomposetest.common.Utils
 import com.awrdev.cameracomposetest.ui.theme.CameraComposeTestTheme
 
-typealias LumaListener = (luma: Double) -> Unit
+typealias LumaListener = (channelIndex: Int, luma: Double) -> Unit
 
 class MainActivity : ComponentActivity() {
 

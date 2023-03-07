@@ -2,10 +2,7 @@ package com.awrdev.cameracomposetest
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -23,6 +20,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.awrdev.cameracomposetest.common.Utils.convertPixelsToDp
+import com.awrdev.cameracomposetest.ui.theme.Gray600
 
 @Composable
 fun MainScreen(context: Context,
@@ -30,8 +28,11 @@ fun MainScreen(context: Context,
                offset: MutableState<Offset>,
                lumen: MutableState<Float>,
                viewModel: MainViewModel){
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween) {
+    Column(
+        modifier = Modifier.fillMaxSize().background(Gray600),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
         Box(){
             CameraPreview(
                 modifier = Modifier
@@ -39,7 +40,7 @@ fun MainScreen(context: Context,
                     .pointerInput(this) {
                         detectTapGestures(onTap = {
                             //offset.value = it
-                            viewModel.updateInputSources(it)
+                            viewModel.updateInputSources_Channel(0, it)
                             //println(viewModel.state.value.inputSources)
                             viewModel.resetLuminosityThreshold()
                         })
@@ -48,43 +49,35 @@ fun MainScreen(context: Context,
                 offset = viewModel.state.value.inputSources ,
                 lumen = lumen,
                 viewModel = viewModel)
-            for (inputSource in viewModel.state.value.inputSources){
+            for (channel in viewModel.state.value.channels){
                 Canvas(modifier = Modifier, onDraw = {
-                            drawRect(Color.Green, Offset(inputSource.x, inputSource.y+25f), Size(50f,50f), 1f, Stroke(5f))
+                            drawRect(channel.borderColor, Offset(channel.inputSource.x, channel.inputSource.y+25f), Size(50f,50f), 1f, Stroke(5f))
                         })
             }
         }
-        Row() {
-                        Image(
-                            bitmap = state.value.asImageBitmap(),
-                            contentDescription = "Image",
-                            modifier = Modifier
-                                .border(1.dp, Color.Red)
-                                .rotate(90f),
-
-                        )
-                    }
-//        Box(
-//            modifier = Modifier
-//                .padding(top = 50.dp)
-//                .size(
-//                    convertPixelsToDp(context, 480f).dp,
-//                    convertPixelsToDp(context, 640f).dp
-//                )
-//                .background(
-//                    Color.Red
-//                )
-//        )
         Column(modifier = Modifier
-            .background(Color.Green)
+            //.background(Color.Green)
             .padding(bottom = 25.dp)) {
-            DecodedOutputView(modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(), viewModel.state.value.words)
+//            Text(text = viewModel.state.value.log_text, modifier = Modifier.height(200.dp).verticalScroll(
+//                        rememberScrollState(0 )))
+            for (channel in viewModel.state.value.channels){
+                DecodedOutputView(modifier = Modifier
+                    .padding(5.dp),
+                    channel.message,
+                    channel.words,
+                    channel.inputImage,
+                    channel.borderColor)
+             //   println(channel.toString())
+            }
             Button(modifier = Modifier
                 .padding(5.dp)
-                .fillMaxWidth(), onClick = {viewModel.updateColor()}) {
+                .fillMaxWidth(), onClick = {viewModel.updateColor_Channel(0)}) {
                 Text(text = "+")
+            }
+            Button(modifier = Modifier
+                .padding(5.dp)
+                .fillMaxWidth(), onClick = {viewModel.isLogging = !viewModel.isLogging}) {
+                Text(text = "Logging")
             }
         }
     }

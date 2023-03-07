@@ -62,7 +62,7 @@ fun CameraPreview(
                                 state = state,
                                 viewModel = viewModel,
                                 lumen = lumen,
-                                listener = { luma ->
+                                listener = { channelIndex, luma ->
                                     //Log.d("LuminosityTAG", "Average luminosity: $luma")
                                     viewModel.updateLuminosuty(luma)
                                     //println(offset.value.size)
@@ -72,12 +72,12 @@ fun CameraPreview(
                                     if (luma.toInt() in IntRange((viewModel.state.value.maxLumen - luma_threshold).toInt(),
                                             viewModel.state.value.maxLumen.toInt()
                                         )){
-                                        viewModel.receiveSignal("HIGH")
+                                        viewModel.receiveSignal_Channel(channelIndex,"HIGH")
                                     }
                                     if (luma.toInt() in IntRange(viewModel.state.value.minLumen.toInt(),
                                             (viewModel.state.value.minLumen+luma_threshold).toInt()
                                         )){
-                                        viewModel.receiveSignal("LOW")
+                                        viewModel.receiveSignal_Channel(channelIndex, "LOW")
                                     }
                                 })
                         )
@@ -124,27 +124,29 @@ private class LuminosityAnalyzer(
         //Get part of the image
         val chW = 50
         val chH = 50
-        val offset = viewModel.state.value.inputSources
-        val chunk = getChunk(pixels, offset, chH, chW)
-        val newBitmap = Bitmap.createBitmap(chW, chH, Bitmap.Config.ARGB_8888)
-        newBitmap.setPixels(chunk.map { android.graphics.Color.rgb(it, it, it) }.toIntArray(), 0, chW, 0,0, chW, chH )
-        state.value = Bitmap.createScaledBitmap(newBitmap, chW, chH, false)
-        val luma = chunk.average()
-        lumen.value = luma.toFloat()
-        listener(luma)
+        for (index in viewModel.state.value.channels.indices){
+            val offset = viewModel.state.value.channels[index].inputSource
+            val chunk = getChunk(pixels, offset, chH, chW)
+            val newBitmap = Bitmap.createBitmap(chW, chH, Bitmap.Config.ARGB_8888)
+            newBitmap.setPixels(chunk.map { android.graphics.Color.rgb(it, it, it) }.toIntArray(), 0, chW, 0,0, chW, chH )
+            viewModel.updateInputImage_Channel(index, Bitmap.createScaledBitmap(newBitmap, chW, chH, false))
+            val luma = chunk.average()
+            lumen.value = luma.toFloat()
+            listener(index, luma)
+        }
 
         image.close()
     }
 
-    private fun getChunk(pixels: List<Int>, offset: List<Offset>, height: Int, width: Int): List<Int> {
-        println(offset.toString())
+    private fun getChunk(pixels: List<Int>, offset: Offset, height: Int, width: Int): List<Int> {
+        //println(offset.toString())
         val imHeight = 640
         val imWidth = 480
         val result = mutableListOf<Int>()
         for (i in height downTo 0){
-                val x = offset[0].x.toInt() + i
+                val x = offset.x.toInt() + i
             for (j in 0 until width){
-                val y = offset[0].y.toInt() + j
+                val y = offset.y.toInt() + j
                 try{
                     result.add(pixels[imHeight*(imWidth-x)+y])
                 }

@@ -19,5 +19,7 @@ data class MainState(
     val maxLumen: Double = 0.0,
     val minLumen: Double = 250.0,
 
-    val inputSources: List<Offset> = listOf(Offset(0f,0f))
+    val inputSources: List<Offset> = listOf(Offset(0f,0f)),
+    val inputImages: List<Bitmap> = listOf(Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)),
+    val channels: List<Channel> = listOf(Channel())
 )
