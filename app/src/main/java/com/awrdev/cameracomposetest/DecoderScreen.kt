@@ -23,11 +23,11 @@ import com.awrdev.cameracomposetest.common.Utils.convertPixelsToDp
 import com.awrdev.cameracomposetest.ui.theme.Gray800
 
 @Composable
-fun MainScreen(context: Context,
-               state: MutableState<Bitmap>,
-               offset: MutableState<Offset>,
-               lumen: MutableState<Float>,
-               viewModel: MainViewModel){
+fun DecoderScreen(context: Context,
+                  state: MutableState<Bitmap>,
+                  offset: MutableState<Offset>,
+                  lumen: MutableState<Float>,
+                  viewModel: MainViewModel){
     Column(
         modifier = Modifier.fillMaxSize().background(Gray800),
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -8,29 +8,14 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.camera.core.*
-import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 //import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.ViewModelProvider
-import com.awrdev.cameracomposetest.common.Utils
 import com.awrdev.cameracomposetest.ui.theme.CameraComposeTestTheme
 
 typealias LumaListener = (channelIndex: Int, luma: Double) -> Unit
@@ -119,7 +104,7 @@ class MainActivity : ComponentActivity() {
 //                        rememberScrollState(0 )))
 //                    //
 //                }
-                MainScreen(this, state = state,
+                DecoderScreen(this, state = state,
                             offset = offset,
                             lumen = luminosity,
                             viewModel = viewModel)
