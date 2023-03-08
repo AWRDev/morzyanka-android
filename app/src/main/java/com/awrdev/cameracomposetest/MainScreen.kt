@@ -2,25 +2,25 @@ package com.awrdev.cameracomposetest
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.awrdev.cameracomposetest.common.Utils.convertPixelsToDp
-import com.awrdev.cameracomposetest.ui.theme.Gray600
+import com.awrdev.cameracomposetest.ui.theme.Gray800
 
 @Composable
 fun MainScreen(context: Context,
@@ -29,14 +29,15 @@ fun MainScreen(context: Context,
                lumen: MutableState<Float>,
                viewModel: MainViewModel){
     Column(
-        modifier = Modifier.fillMaxSize().background(Gray600),
+        modifier = Modifier.fillMaxSize().background(Gray800),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Box(){
             CameraPreview(
                 modifier = Modifier
                     .padding(top = convertPixelsToDp(context, 25f).dp)
+                    .clip(RoundedCornerShape(10.dp))
                     .pointerInput(this) {
                         detectTapGestures(onTap = {
                             //offset.value = it
@@ -71,14 +72,18 @@ fun MainScreen(context: Context,
             }
             Button(modifier = Modifier
                 .padding(5.dp)
-                .fillMaxWidth(), onClick = {viewModel.updateColor_Channel(0)}) {
+                .fillMaxWidth(),
+                onClick = {
+                    if (!viewModel.addNewChannel()){
+                        Toast.makeText(context, "Max amount of channels reached!", Toast.LENGTH_LONG).show()
+                    }}) {
                 Text(text = "+")
             }
-            Button(modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(), onClick = {viewModel.isLogging = !viewModel.isLogging}) {
-                Text(text = "Logging")
-            }
+//            Button(modifier = Modifier
+//                .padding(5.dp)
+//                .fillMaxWidth(), onClick = {viewModel.isLogging = !viewModel.isLogging}) {
+//                Text(text = "Logging")
+//            }
         }
     }
 }

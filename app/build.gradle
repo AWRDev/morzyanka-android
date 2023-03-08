@@ -71,4 +71,7 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     // CameraX View class
     implementation "androidx.camera:camera-view:$camerax_version"
+
+    //Navigation Compose
+    implementation "androidx.navigation:navigation-compose:2.5.3"
 }

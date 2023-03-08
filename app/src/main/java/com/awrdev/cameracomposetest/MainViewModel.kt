@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.awrdev.cameracomposetest.common.*
 
@@ -148,31 +147,6 @@ class MainViewModel: ViewModel() {
         _state.value = state.value.copy(minLumen = 250.0)
     }
 
-    fun updateColor(){
-//        val words = state.value.words.toMutableList()
-//        words.add(CharRange('A', 'Z').random().toString())
-//        _state.value = state.value.copy(words = words)
-        val inputs = state.value.inputSources.toMutableList()
-        val images = state.value.inputImages.toMutableList()
-        inputs.add(Offset(IntRange(0,480).random().toFloat(),IntRange(0,640).random().toFloat()))
-        images.add(Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888))
-        _state.value = state.value.copy(inputSources = inputs, inputImages = images)
-    }
-
-    fun updateInputSources(inputSource: Offset) {
-        val inputs = state.value.inputSources.toMutableList()
-        inputs[0] = inputSource
-        //inputs.add(Offset(0f,0f))
-        _state.value = state.value.copy(inputSources = inputs)
-    }
-
-    fun updateInputImage(index:Int, updatedImage: Bitmap?) {
-        val images = state.value.inputImages.toMutableList()
-        if (updatedImage != null) {
-            images[index] = updatedImage
-        }
-        _state.value = state.value.copy(inputImages = images)
-    }
     /////////////////CHANNELS//////////////////////////
     fun receiveSignal_Channel(channelIndex: Int, signal: String){
         val channel = state.value.channels[channelIndex]
@@ -304,13 +278,17 @@ class MainViewModel: ViewModel() {
         println("Words: ${ state.value.channels[0].words }")
         //TODO("Decoding symbols row into alphabet")
     }
-    fun updateColor_Channel(channelIndex: Int){
+    fun addNewChannel(): Boolean{
+        if (state.value.channels.size == 4){
+            return false
+        }
         val input = Offset(IntRange(0,480).random().toFloat(),IntRange(0,640).random().toFloat())
         val image = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
         val newChannel = Channel(input, image)
         val channels = state.value.channels.toMutableList()
         channels.add(newChannel)
         _state.value = state.value.copy(channels = channels)
+        return true
     }
 
     fun updateInputSources_Channel(channelIndex: Int, inputSource: Offset) {

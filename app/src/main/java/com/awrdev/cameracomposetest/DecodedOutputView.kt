@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.awrdev.cameracomposetest.ui.theme.Gray600
+import com.awrdev.cameracomposetest.ui.theme.Gray700
 import com.awrdev.cameracomposetest.ui.theme.Gray800
 
 @Composable
@@ -33,11 +35,11 @@ fun DecodedOutputView(
     borderColor: Color
 ) {
     Card(modifier = modifier
-        .clip(RoundedCornerShape(15.dp))
-        .fillMaxWidth()
-        .border(3.dp, Color.Blue, RoundedCornerShape(15.dp)),
-        backgroundColor = Gray800,
-        elevation = 5.dp
+        .clip(RoundedCornerShape(10.dp))
+        .fillMaxWidth(),
+        //.border(3.dp, Color.Blue, RoundedCornerShape(15.dp)),
+        backgroundColor = Gray700,
+        elevation = 15.dp
     ) {
 
         Column() {
