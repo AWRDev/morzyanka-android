@@ -279,7 +279,7 @@ class MainViewModel: ViewModel() {
         //TODO("Decoding symbols row into alphabet")
     }
     fun addNewChannel(): Boolean{
-        if (state.value.channels.size == 4){
+        if (state.value.channels.size == 3){
             return false
         }
         val input = Offset(IntRange(0,480).random().toFloat(),IntRange(0,640).random().toFloat())

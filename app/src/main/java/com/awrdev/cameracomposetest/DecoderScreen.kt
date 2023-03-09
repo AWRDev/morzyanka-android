@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -24,12 +25,9 @@ import com.awrdev.cameracomposetest.ui.theme.Gray800
 
 @Composable
 fun DecoderScreen(context: Context,
-                  state: MutableState<Bitmap>,
-                  offset: MutableState<Offset>,
-                  lumen: MutableState<Float>,
                   viewModel: MainViewModel){
     Column(
-        modifier = Modifier.fillMaxSize().background(Gray800),
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -40,15 +38,10 @@ fun DecoderScreen(context: Context,
                     .clip(RoundedCornerShape(10.dp))
                     .pointerInput(this) {
                         detectTapGestures(onTap = {
-                            //offset.value = it
                             viewModel.updateInputSources_Channel(0, it)
-                            //println(viewModel.state.value.inputSources)
                             viewModel.resetLuminosityThreshold()
                         })
                     },
-                state = state,
-                offset = viewModel.state.value.inputSources ,
-                lumen = lumen,
                 viewModel = viewModel)
             for (channel in viewModel.state.value.channels){
                 Canvas(modifier = Modifier, onDraw = {

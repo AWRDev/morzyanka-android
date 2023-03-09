@@ -28,86 +28,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             CameraComposeTestTheme {
                 var viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-                val state = remember {
-                    mutableStateOf(Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888))
-                }
-                val luminosity = remember {
-                    mutableStateOf(0f)
-                }
-                val offset = remember { mutableStateOf(Offset(0f, 0f))}
-//                Column(
-//                    modifier = Modifier.fillMaxSize(),
-//                    verticalArrangement = Arrangement.Top,
-//                    horizontalAlignment = Alignment.CenterHorizontally
-//                ) {
-//                    Text(text = offset.value.toString())
-//                    Text(text = luminosity.value.toString())
-//                    Text(text = viewModel.state.value.message.joinToString(separator = " "))
-//                    Box()
-//                    {
-//                        CameraPreview(
-//                            modifier = Modifier
-//                                .padding(top = Utils.convertPixelsToDp(this@MainActivity, 25f).dp)
-//                                .pointerInput(this) {
-//                                    detectTapGestures(onTap = {
-//                                        offset.value = it
-//                                        viewModel.resetLuminosityThreshold()
-//                                    })
-//                                },
-//                            state = state,
-//                            offset = offset,
-//                            lumen = luminosity,
-//                            viewModel = viewModel
-//                        )
-//                        //CameraMod( )
-//                        Canvas(modifier = Modifier, onDraw = {
-//                            drawRect(Color.Green, Offset(offset.value.x, offset.value.y+25f), Size(50f,50f), 1f, Stroke(5f))
-//                        })
-//                    }
-//                    Row() {
-//                        Image(
-//                            bitmap = state.value.asImageBitmap(),
-//                            contentDescription = "Image",
-//                            modifier = Modifier
-//                                .border(1.dp, Color.Red)
-//                                .rotate(90f),
-//
-//                        )
-//                    }
-//                    //Offset control
-//                    Row(horizontalArrangement = Arrangement.Center,
-//                    verticalAlignment = Alignment.CenterVertically){
-//                        Button(onClick = {offset.value = Offset(offset.value.x - 5, offset.value.y)}){
-//                            Text(text = "Left")
-//                        }
-//                        Column() {
-//                            Button(onClick = {offset.value = Offset(offset.value.x, offset.value.y-5)}){
-//                                Text(text = "Up")
-//                            }
-//                            Button(onClick = {offset.value = Offset(offset.value.x, offset.value.y+5)}){
-//                                Text(text = "Dowm")
-//                            }
-//                        }
-//                        Button(onClick = {offset.value = Offset(offset.value.x + 5, offset.value.y)}){
-//                            Text(text = "Right")
-//                        }
-//                    }
-//                    //Clear button
-//                    Button(onClick = {viewModel.clearMessage()}){
-//                        Text(text = "Clear")
-//                    }
-//                    //"Useful" info
-//                    Text(text = viewModel.state.value.currentSignal)
-//                    Text(text = viewModel.state.value.words.toString())
-//                    Text(text = ((viewModel.state.value.maxLumen + viewModel.state.value.minLumen)/2).toString())
-//                    Text(text = viewModel.state.value.log_text, modifier = Modifier.verticalScroll(
-//                        rememberScrollState(0 )))
-//                    //
-//                }
-                DecoderScreen(this, state = state,
-                            offset = offset,
-                            lumen = luminosity,
-                            viewModel = viewModel)
+
+                //DecoderScreen(this,
+                 //           viewModel = viewModel)
+                MainScreen(this, viewModel = viewModel)
+
             }
         }
     }

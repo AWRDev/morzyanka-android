@@ -21,9 +21,6 @@ fun CameraPreview(
     modifier: Modifier = Modifier,
     cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
     scaleType: PreviewView.ScaleType = PreviewView.ScaleType.FIT_CENTER,
-    state: MutableState<Bitmap>,
-    offset: List<Offset>,
-    lumen: MutableState<Float>,
     viewModel: MainViewModel
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -59,9 +56,7 @@ fun CameraPreview(
                     .also {
                         it.setAnalyzer(
                             cameraExecutor, LuminosityAnalyzer(
-                                state = state,
                                 viewModel = viewModel,
-                                lumen = lumen,
                                 listener = { channelIndex, luma ->
                                     //Log.d("LuminosityTAG", "Average luminosity: $luma")
                                     viewModel.updateLuminosuty(luma)
@@ -103,9 +98,7 @@ fun CameraPreview(
 
 private class LuminosityAnalyzer(
     private val listener: LumaListener,
-    val state: MutableState<Bitmap>,
     val viewModel: MainViewModel,
-    val lumen: MutableState<Float>
 ) : ImageAnalysis.Analyzer {
 
     private fun ByteBuffer.toByteArray(): ByteArray {
@@ -131,7 +124,6 @@ private class LuminosityAnalyzer(
             newBitmap.setPixels(chunk.map { android.graphics.Color.rgb(it, it, it) }.toIntArray(), 0, chW, 0,0, chW, chH )
             viewModel.updateInputImage_Channel(index, Bitmap.createScaledBitmap(newBitmap, chW, chH, false))
             val luma = chunk.average()
-            lumen.value = luma.toFloat()
             listener(index, luma)
         }
 
