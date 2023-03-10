@@ -2,7 +2,6 @@ package com.awrdev.cameracomposetest
 
 import android.graphics.Bitmap
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 
 data class MainState(
     val selectedAreaImg: List<Int> = emptyList(),
@@ -21,5 +20,6 @@ data class MainState(
 
     val inputSources: List<Offset> = listOf(Offset(0f,0f)),
     val inputImages: List<Bitmap> = listOf(Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)),
-    val channels: List<Channel> = listOf(Channel())
+    val channels: List<Channel> = listOf(Channel()),
+    val permission: Boolean = false
 )

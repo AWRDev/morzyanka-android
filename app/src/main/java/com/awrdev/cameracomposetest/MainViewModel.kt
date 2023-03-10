@@ -62,7 +62,7 @@ class MainViewModel: ViewModel() {
                 //else return
             //Think about LOWsgnals
         }
-        var logs = ""
+        val logs: String
         if (isLogging){
             logs = "${state.value.log_text}\n$signal $lastSignalTime"
         }
@@ -127,10 +127,6 @@ class MainViewModel: ViewModel() {
         words.add(alphabet[letterMorse].toString())
         _state.value = state.value.copy(words = words)
         //TODO("Decoding symbols row into alphabet")
-    }
-
-    fun clearMessage(){
-        _state.value = state.value.copy(message = emptyList())
     }
 
     fun updateLuminosuty(luma: Double) {
@@ -201,8 +197,7 @@ class MainViewModel: ViewModel() {
             //Think about LOWsgnals
         }
 
-        var logs = ""
-        logs = if (isLogging){
+        val logs: String = if (isLogging){
             "${state.value.log_text}\n$signal $lastSignalTime"
         } else {
             state.value.log_text
@@ -304,5 +299,9 @@ class MainViewModel: ViewModel() {
             channels[channelIndex] = channels[channelIndex].copy(inputImage = updatedImage)
         }
         _state.value = state.value.copy(channels = channels)
+    }
+
+    fun updatePermission(perm: Boolean){
+        _state.value = state.value.copy(permission = perm)
     }
 }
