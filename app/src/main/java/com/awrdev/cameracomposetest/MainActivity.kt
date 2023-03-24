@@ -1,7 +1,6 @@
 package com.awrdev.cameracomposetest
 
 import android.Manifest
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
@@ -11,9 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.ViewModelProvider
 import com.awrdev.cameracomposetest.ui.theme.CameraComposeTestTheme
@@ -27,11 +24,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CameraComposeTestTheme {
-                var viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+                val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
                 //DecoderScreen(this,
                  //           viewModel = viewModel)
-                MainScreen(this, viewModel = viewModel)
+                MainScreen(viewModel = viewModel)
 
             }
         }

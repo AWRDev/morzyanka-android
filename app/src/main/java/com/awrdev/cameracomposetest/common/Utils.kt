@@ -21,3 +21,11 @@ object Utils {
     }
 
 }
+
+class MorseUnit(private val unitLength: Int = 250){
+    val errorRate = unitLength / 2
+    val dotLength = IntRange(unitLength - errorRate, unitLength + errorRate)
+    val dashLength = IntRange(3*unitLength - errorRate, 3*unitLength + errorRate)
+    val letterBrakeLength = IntRange((1.5*unitLength).toInt(), 4*unitLength)
+    val spaceLength = IntRange(7*unitLength - errorRate, 8*unitLength + errorRate)
+}

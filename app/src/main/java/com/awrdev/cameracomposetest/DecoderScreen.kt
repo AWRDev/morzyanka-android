@@ -1,6 +1,5 @@
 package com.awrdev.cameracomposetest
 
-import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,13 +19,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.awrdev.cameracomposetest.common.Utils.convertPixelsToDp
 import com.awrdev.cameracomposetest.common.Utils.hasPermissions
 
 @Composable
-fun DecoderScreen(context: Context,
-                  viewModel: MainViewModel){
+fun DecoderScreen(viewModel: MainViewModel){
     val cameraPermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = {isGranted ->
@@ -34,6 +33,8 @@ fun DecoderScreen(context: Context,
                 viewModel.updatePermission(true)
         }
     )
+
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier

@@ -1,6 +1,5 @@
 package com.awrdev.cameracomposetest.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
@@ -11,6 +10,8 @@ private val DarkColorPalette = darkColors(
     primaryVariant = Purple700,
     secondary = Teal200,
 
+    onSurface = LightGray,
+
     background = Gray800
 )
 
@@ -18,8 +19,9 @@ private val LightColorPalette = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
     secondary = Teal200,
+    onSurface = LightGray,
 
-    background = Gray800
+    background = Gray800,
 
     /* Other default colors to override
     background = Color.White,
@@ -33,7 +35,7 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun CameraComposeTestTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {

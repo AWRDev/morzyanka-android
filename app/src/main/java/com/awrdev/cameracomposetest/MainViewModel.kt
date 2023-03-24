@@ -13,121 +13,122 @@ class MainViewModel: ViewModel() {
     val state: State<MainState> = _state
 
     var isLogging = false
+    val morseUnit = MorseUnit()
 
 
 
 
-    fun receiveSignal(signal: String){
-        _state.value = state.value.copy(currentSignal = signal)
-        if (signal == state.value.lastSignal){
-            return
-        }
-        else {
-            updateLastSignal(signal)
-        }
-    }
+//    fun receiveSignal(signal: String){
+//        _state.value = state.value.copy(currentSignal = signal)
+//        if (signal == state.value.lastSignal){
+//            return
+//        }
+//        else {
+//            updateLastSignal(signal)
+//        }
+//    }
 
-    private fun updateLastSignal(signal: String) {
-        val currentTime = System.currentTimeMillis()
-        val lastSignalTime = currentTime - state.value.lastSignalTime
-        var message = state.value.message.toMutableList()
-        println(state.value.lastSignalTime)
-        if (lastSignalTime > DASH_LENGTH.last+ERROR_RATE){
-            if (message.isEmpty()){
-                //message.add(signal)
-            }
-            else {
-                if (signal == "HIGH" && lastSignalTime in SPACE_LENGTH) message.add("PAUSE")
-                else {
-                    println("Not a valid Morse symbol!!!! $signal $lastSignalTime")
+//    private fun updateLastSignal(signal: String) {
+//        val currentTime = System.currentTimeMillis()
+//        val lastSignalTime = currentTime - state.value.lastSignalTime
+//        var message = state.value.message.toMutableList()
+//        println(state.value.lastSignalTime)
+//        if (lastSignalTime > DASH_LENGTH.last+ERROR_RATE){
+//            if (message.isEmpty()){
+//                //message.add(signal)
+//            }
+//            else {
+//                if (signal == "HIGH" && lastSignalTime in SPACE_LENGTH) message.add("PAUSE")
+//                else {
+//                    println("Not a valid Morse symbol!!!! $signal $lastSignalTime")
+//
+//                    decodeArray()
+//                    message = mutableListOf()
+//
+//                    //message.removeLast()
+//                    //message.add(signal)
+//                }
+//            }
+//        }
+//        else{
+//            //message.add(signal)
+//            println(lastSignalTime)
+//            if (signal == "LOW" && lastSignalTime in DOT_LENGTH) message.add("DOT")
+//            if (signal == "LOW" && lastSignalTime in DASH_LENGTH) message.add("DASH")
+//            if (signal == "HIGH" && lastSignalTime in LETTER_BRAKE_LENGTH){
+//                decodeArray()
+//                message = mutableListOf()
+//            }
+//
+//                //else return
+//            //Think about LOWsgnals
+//        }
+//        val logs: String
+//        if (isLogging){
+//            logs = "${state.value.log_text}\n$signal $lastSignalTime"
+//        }
+//        else {
+//            logs = state.value.log_text
+//        }
+//        _state.value = state.value.copy(
+//            lastSignal = signal,
+//            lastSignalTime = currentTime,
+//            message = message,
+//            log_text = logs
+//        )
+//    }
 
-                    decodeArray()
-                    message = mutableListOf()
-
-                    //message.removeLast()
-                    //message.add(signal)
-                }
-            }
-        }
-        else{
-            //message.add(signal)
-            println(lastSignalTime)
-            if (signal == "LOW" && lastSignalTime in DOT_LENGTH) message.add("DOT")
-            if (signal == "LOW" && lastSignalTime in DASH_LENGTH) message.add("DASH")
-            if (signal == "HIGH" && lastSignalTime in LETTER_BRAKE_LENGTH){
-                decodeArray()
-                message = mutableListOf()
-            }
-
-                //else return
-            //Think about LOWsgnals
-        }
-        val logs: String
-        if (isLogging){
-            logs = "${state.value.log_text}\n$signal $lastSignalTime"
-        }
-        else {
-            logs = state.value.log_text
-        }
-        _state.value = state.value.copy(
-            lastSignal = signal,
-            lastSignalTime = currentTime,
-            message = message,
-            log_text = logs
-        )
-    }
-
-    private fun decodeArray() {
-        val alphabet = mapOf<String, Char>(
-            ".-" to 'A',
-            "-..." to 'B',
-            "-.-." to 'C',
-            "-.." to 'D',
-            "." to 'E',
-            "..-." to 'F',
-            "--." to 'G',
-            "...." to 'H',
-            ".." to 'I',
-            ".---" to 'J',
-            "-.-" to 'K',
-            ".-.." to 'L',
-            "--" to 'M',
-            "-." to 'N',
-            "---" to 'O',
-            ".--." to 'P',
-            "--.-" to 'Q',
-            ".-." to 'R',
-            "..." to 'S',
-            "-" to 'T',
-            "..-" to 'U',
-            "...-" to 'V',
-            ".--" to 'W',
-            "-..-" to 'X',
-            "-.--" to 'Y',
-            "--.." to 'Z',
-            ".----" to '1',
-            "..---" to '2',
-            "...--" to '3',
-            "....-" to '4',
-            "....." to '5',
-            "-...." to '6',
-            "--..." to '7',
-            "---.." to '8',
-            "----." to '9',
-            "-----" to '0'
-        )
-        println("message to decode ${state.value.message.joinToString()}")
-        val chars: MutableList<Char> = mutableListOf()
-        for (word in state.value.message){
-            if (word == "DOT") chars.add('.')
-            if (word == "DASH") chars.add('-')
-        }
-        val letterMorse = chars.joinToString(separator = "")
-        val words = state.value.words.toMutableList()
-        words.add(alphabet[letterMorse].toString())
-        _state.value = state.value.copy(words = words)
-        //TODO("Decoding symbols row into alphabet")
-    }
+//    private fun decodeArray() {
+//        val alphabet = mapOf<String, Char>(
+//            ".-" to 'A',
+//            "-..." to 'B',
+//            "-.-." to 'C',
+//            "-.." to 'D',
+//            "." to 'E',
+//            "..-." to 'F',
+//            "--." to 'G',
+//            "...." to 'H',
+//            ".." to 'I',
+//            ".---" to 'J',
+//            "-.-" to 'K',
+//            ".-.." to 'L',
+//            "--" to 'M',
+//            "-." to 'N',
+//            "---" to 'O',
+//            ".--." to 'P',
+//            "--.-" to 'Q',
+//            ".-." to 'R',
+//            "..." to 'S',
+//            "-" to 'T',
+//            "..-" to 'U',
+//            "...-" to 'V',
+//            ".--" to 'W',
+//            "-..-" to 'X',
+//            "-.--" to 'Y',
+//            "--.." to 'Z',
+//            ".----" to '1',
+//            "..---" to '2',
+//            "...--" to '3',
+//            "....-" to '4',
+//            "....." to '5',
+//            "-...." to '6',
+//            "--..." to '7',
+//            "---.." to '8',
+//            "----." to '9',
+//            "-----" to '0'
+//        )
+//        println("message to decode ${state.value.message.joinToString()}")
+//        val chars: MutableList<Char> = mutableListOf()
+//        for (word in state.value.message){
+//            if (word == "DOT") chars.add('.')
+//            if (word == "DASH") chars.add('-')
+//        }
+//        val letterMorse = chars.joinToString(separator = "")
+//        val words = state.value.words.toMutableList()
+//        words.add(alphabet[letterMorse].toString())
+//        _state.value = state.value.copy(words = words)
+//        //TODO("Decoding symbols row into alphabet")
+//    }
 
     fun updateLuminosuty(luma: Double) {
         if (luma > state.value.maxLumen){
@@ -162,12 +163,12 @@ class MainViewModel: ViewModel() {
         val lastSignalTime = currentTime - channels[channelIndex].lastSignalTime
         var message = channels[channelIndex].message.toMutableList()
         //println(state.value.lastSignalTime)
-        if (lastSignalTime > DASH_LENGTH.last+ERROR_RATE){
+        if (lastSignalTime > morseUnit.dashLength.last+morseUnit.errorRate){
             if (message.isEmpty()){
                 //message.add(signal)
             }
             else {
-                if (signal == "HIGH" && lastSignalTime in SPACE_LENGTH){
+                if (signal == "HIGH" && lastSignalTime in morseUnit.spaceLength){
                     decodeArray_Channel(channelIndex)
                     message = mutableListOf()
                     message.add("PAUSE")
@@ -186,9 +187,9 @@ class MainViewModel: ViewModel() {
         else{
             //message.add(signal)
             println(lastSignalTime)
-            if (signal == "LOW" && lastSignalTime in DOT_LENGTH) message.add("DOT")
-            if (signal == "LOW" && lastSignalTime in DASH_LENGTH) message.add("DASH")
-            if (signal == "HIGH" && lastSignalTime in LETTER_BRAKE_LENGTH){
+            if (signal == "LOW" && lastSignalTime in morseUnit.dotLength) message.add("DOT")
+            if (signal == "LOW" && lastSignalTime in morseUnit.dashLength) message.add("DASH")
+            if (signal == "HIGH" && lastSignalTime in morseUnit.letterBrakeLength){
                 decodeArray_Channel(channelIndex)
                 message = mutableListOf()
             }
