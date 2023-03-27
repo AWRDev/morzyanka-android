@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.ViewModelProvider
+import com.awrdev.cameracomposetest.common.dataStore
+import com.awrdev.cameracomposetest.presentation.decoder.MainViewModel
 import com.awrdev.cameracomposetest.ui.theme.CameraComposeTestTheme
 
 typealias LumaListener = (channelIndex: Int, luma: Double) -> Unit
@@ -22,8 +24,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            CameraComposeTestTheme {
+            val appSettings = dataStore.data.collectAsState(initial = AppSettings()).value
+            CameraComposeTestTheme(darkTheme = !appSettings.appThemeIsLight) {
                 val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
                 //DecoderScreen(this,

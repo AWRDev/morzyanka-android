@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.awrdev.cameracomposetest.common.Utils.convertPixelsToDp
 import com.awrdev.cameracomposetest.common.Utils.hasPermissions
+import com.awrdev.cameracomposetest.presentation.decoder.MainViewModel
+import com.awrdev.cameracomposetest.presentation.decoder.components.CameraPreview
 
 @Composable
 fun DecoderScreen(viewModel: MainViewModel){

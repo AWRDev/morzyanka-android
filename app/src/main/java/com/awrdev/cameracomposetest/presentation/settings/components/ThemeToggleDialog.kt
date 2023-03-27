@@ -1,6 +1,7 @@
 package com.awrdev.cameracomposetest.presentation.settings.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -11,6 +12,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
+import com.awrdev.cameracomposetest.common.dataStore
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -20,7 +23,7 @@ fun ThemeDialog(onDismissRequest: () -> Unit) {
     val (selectedOption, setSelectedOption) = remember { mutableStateOf(
         if (isSystemInDarkTheme) ThemeOption.SYSTEM else ThemeOption.LIGHT
     ) }
-
+    val scope = rememberCoroutineScope()
     Dialog(
         onDismissRequest = onDismissRequest,
         content = {
@@ -28,6 +31,7 @@ fun ThemeDialog(onDismissRequest: () -> Unit) {
                 Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
+                    .background(MaterialTheme.colors.background)
             ) {
                 Text("Select Theme")
                 Spacer(modifier = Modifier.height(16.dp))
@@ -54,13 +58,24 @@ fun ThemeDialog(onDismissRequest: () -> Unit) {
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 TextButton(onClick = {
-                    val config = context.resources.configuration
-                    config.uiMode = when (selectedOption) {
-                        ThemeOption.LIGHT -> Configuration.UI_MODE_NIGHT_NO
-                        ThemeOption.DARK -> Configuration.UI_MODE_NIGHT_YES
-                        ThemeOption.SYSTEM -> Configuration.UI_MODE_NIGHT_YES
+                    when (selectedOption) {
+                        ThemeOption.LIGHT ->
+                        scope.launch{
+                            context.dataStore.updateData {
+                                it.copy(appThemeIsLight = true)
+                            }
+                        }
+                        ThemeOption.DARK ->scope.launch{
+                            context.dataStore.updateData {
+                                it.copy(appThemeIsLight = false)
+                            }
+                        }
+                        ThemeOption.SYSTEM -> scope.launch{
+                            context.dataStore.updateData {
+                                it.copy(appThemeIsLight = !isSystemInDarkTheme)
+                            }
+                        }
                     }
-                    context.resources.updateConfiguration(config, null)
                     onDismissRequest()
                 }) {
                     Text("Apply")

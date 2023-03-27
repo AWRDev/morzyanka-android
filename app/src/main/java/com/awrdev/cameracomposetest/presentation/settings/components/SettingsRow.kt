@@ -11,13 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun SettingsRow(title: String, description: String = "", value: Int, onClick: () -> Unit) {
+fun SettingsRow(title: String,
+                icon: ImageVector,
+                description: String = "",
+                value: String,
+                onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,16 +31,18 @@ fun SettingsRow(title: String, description: String = "", value: Int, onClick: ()
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = Icons.Default.ArrowForward,
+            imageVector = icon,
             contentDescription = "Navigate to settings",
             tint = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .size(24.dp)
                 .padding(end = 5.dp)
         )
-        Column(modifier = Modifier
-            .height(intrinsicSize = IntrinsicSize.Min)
-            .weight(1f)) {
+        Column(
+            modifier = Modifier
+                .height(intrinsicSize = IntrinsicSize.Min)
+                .weight(1f)
+        ) {
             Text(
                 text = title,
                 fontSize = 16.sp,
@@ -43,7 +50,7 @@ fun SettingsRow(title: String, description: String = "", value: Int, onClick: ()
                 modifier = Modifier.weight(1f),
                 color = MaterialTheme.colors.onSurface
             )
-            if (description.isNotEmpty()){
+            if (description.isNotEmpty()) {
                 Text(
                     text = description,
                     fontSize = 14.sp,
@@ -56,7 +63,7 @@ fun SettingsRow(title: String, description: String = "", value: Int, onClick: ()
             contentAlignment = Alignment.CenterEnd
         ) {
             Text(
-                text = value.toString(),
+                text = value,
                 fontSize = 14.sp,
                 color = MaterialTheme.colors.onSurface
             )

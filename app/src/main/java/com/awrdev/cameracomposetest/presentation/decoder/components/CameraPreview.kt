@@ -1,4 +1,4 @@
-package com.awrdev.cameracomposetest
+package com.awrdev.cameracomposetest.presentation.decoder.components
 
 import android.graphics.Bitmap
 import android.util.Log
@@ -13,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.awrdev.cameracomposetest.LumaListener
+import com.awrdev.cameracomposetest.presentation.decoder.MainViewModel
 import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 
